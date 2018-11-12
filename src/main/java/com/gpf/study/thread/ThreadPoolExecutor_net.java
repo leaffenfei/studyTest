@@ -25,7 +25,7 @@ public class ThreadPoolExecutor_net {
         {
             Work work=new Work();
             works.add(work);
-            new Thread(work,"workThread-"+i).start();
+            new Thread(work"workThread-"+i).start();
         }
     }
     public void execute(Runnable job)
