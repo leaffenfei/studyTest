@@ -25,7 +25,7 @@ public class ThreadPoolExecutor_net {
         {
             Work work=new Work();
             works.add(work);
-            new Thread(work"workThread-"+i).start();
+            new Thread("workThread-"+i).start();
         }
     }
     public void execute(Runnable job)
@@ -47,7 +47,7 @@ public class ThreadPoolExecutor_net {
     class Work implements Runnable{
 
         private volatile boolean isRun=true;
-        @Override
+
         public void run() {
             while(isRun)
             {

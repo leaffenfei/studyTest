@@ -23,7 +23,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class ThreadPoolExecutorFromJDK6 implements ExecutorService {
+public class ThreadPoolExecutorFromJDK6 /*implements ExecutorService*/ {
 	
 	volatile int runState;
 	static final int RUNNING = 0;
@@ -44,11 +44,12 @@ public class ThreadPoolExecutorFromJDK6 implements ExecutorService {
 	 * Wait condition to support awaitTermination
 	 */
 	private final Condition termination = mainLock.newCondition();
+
 	/**
 	 * Set containing all worker threads in pool. Accessed only when holding
 	 * mainLock.
 	 */
-	private final HashSet<Worker> workers = new HashSet<Worker>();
+//	private final HashSet<Worker> workers = new HashSet<Worker>();
 
 	/**
 	 * Core pool size, updated only while holding mainLock, but volatile to
@@ -78,7 +79,7 @@ public class ThreadPoolExecutorFromJDK6 implements ExecutorService {
 	public long getCompletedTaskCount() {
 		return completedTaskCount.get();
 	}
-
+/*
 	public ThreadPoolExecutorFromJDK6(int corePoolSize) {
 		if (corePoolSize < 0)
 			throw new IllegalArgumentException();
@@ -116,9 +117,9 @@ public class ThreadPoolExecutorFromJDK6 implements ExecutorService {
 	@Override
 	public void execute(Runnable command) {
 		// TODO Auto-generated method stub
-		/*
+		*//*
 		 * if (command == null) throw new NullPointerException();
-		 */
+		 *//*
 
 		System.out.println("进入execute");
 
@@ -150,28 +151,28 @@ public class ThreadPoolExecutorFromJDK6 implements ExecutorService {
 
 	// worker thread调用runLock方法，防止线程在执行任务时，被interrupt
 	private final class Worker implements Runnable {
-		/**
+		*//**
 		 * The runLock is acquired and released surrounding each task execution.
 		 * It mainly protects against interrupts that are intended to cancel the
 		 * worker thread from instead interrupting the task being run.
-		 */
+		 *//*
 		private final ReentrantLock runLock = new ReentrantLock();
 
-		/**
+		*//**
 		 * Initial task to run before entering run loop. Possibly null.
-		 */
+		 *//*
 		private Runnable firstTask;
 
-		/**
+		*//**
 		 * Per thread completed task counter; accumulated into
 		 * completedTaskCount upon termination.
-		 */
+		 *//*
 		final AtomicInteger completedTasks = new AtomicInteger(0);;
 
-		/**
+		*//**
 		 * Thread this worker is running in. Acts as a final field, but cannot
 		 * be set until thread is created.
-		 */
+		 *//*
 		Thread thread;
 
 		Worker(Runnable firstTask) {
@@ -182,9 +183,9 @@ public class ThreadPoolExecutorFromJDK6 implements ExecutorService {
 			return runLock.isLocked();
 		}
 
-		/**
+		*//**
 		 * Interrupts thread if not running a task.
-		 */
+		 *//*
 		void interruptIfIdle() {
 			final ReentrantLock runLock = this.runLock;
 			if (runLock.tryLock()) {
@@ -197,16 +198,16 @@ public class ThreadPoolExecutorFromJDK6 implements ExecutorService {
 			}
 		}
 
-		/**
+		*//**
 		 * Interrupts thread even if running a task.
-		 */
+		 *//*
 		void interruptNow() {
 			thread.interrupt();
 		}
 
-		/**
+		*//**
 		 * Main run loop
-		 */
+		 *//*
 		public void run() {
 			try {
 				System.out.println(Thread.currentThread() + "进入worker run()");
@@ -218,22 +219,22 @@ public class ThreadPoolExecutorFromJDK6 implements ExecutorService {
 					final ReentrantLock runLock = this.runLock;
 					runLock.lock();
 					try {
-						/*
+						*//*
 						 * Ensure that unless pool is stopping, this thread does
 						 * not have its interrupt set. This requires a
 						 * double-check of state in case the interrupt was
 						 * cleared concurrently with a shutdownNow -- if so, the
 						 * interrupt is re-enabled.
-						 */
+						 *//*
 						if (runState < STOP && Thread.interrupted() && runState >= STOP)
 							thread.interrupt();
-						/*
+						*//*
 						 * Track execution state to ensure that afterExecute is
 						 * called only if task completed or threw exception.
 						 * Otherwise, the caught runtime exception will have
 						 * been thrown by afterExecute itself, in which case we
 						 * don't want to call it again.
-						 */
+						 *//*
 						try {
 							task.run();
 							completedTasks.getAndIncrement();
@@ -283,11 +284,11 @@ public class ThreadPoolExecutorFromJDK6 implements ExecutorService {
 		}
 	}
 
-	/*
+	*//*
 	 * (non-Javadoc)
 	 * 
 	 * @see java.util.concurrent.ExecutorService#shutdown()
-	 */
+	 *//*
 	@Override
 	public void shutdown() {
 		// TODO Auto-generated method stub
@@ -332,15 +333,15 @@ public class ThreadPoolExecutorFromJDK6 implements ExecutorService {
 		}
 	}
 
-	/*
+	*//*
 	 * (non-Javadoc)
 	 * 
 	 * @see java.util.concurrent.ExecutorService#shutdownNow()
-	 */
+	 *//*
 	@Override
 	public List<Runnable> shutdownNow() {
 		// TODO Auto-generated method stub
-		/*SecurityManager security = System.getSecurityManager();
+		*//*SecurityManager security = System.getSecurityManager();
 		if (security != null)
 	            security.checkPermission(shutdownPerm);
 
@@ -368,50 +369,50 @@ public class ThreadPoolExecutorFromJDK6 implements ExecutorService {
 	            return tasks;
 	        } finally {
 	            mainLock.unlock();
-	        }*/
+	        }*//*
 		return null;
 	}
 
-	/*
+	*//*
 	 * (non-Javadoc)
 	 * 
 	 * @see java.util.concurrent.ExecutorService#isShutdown()
-	 */
+	 *//*
 	@Override
 	public boolean isShutdown() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	/*
+	*//*
 	 * (non-Javadoc)
 	 * 
 	 * @see java.util.concurrent.ExecutorService#isTerminated()
-	 */
+	 *//*
 	@Override
 	public boolean isTerminated() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	/*
+	*//*
 	 * (non-Javadoc)
 	 * 
 	 * @see java.util.concurrent.ExecutorService#awaitTermination(long,
 	 * java.util.concurrent.TimeUnit)
-	 */
+	 *//*
 	@Override
 	public boolean awaitTermination(long timeout, TimeUnit unit) throws InterruptedException {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	/*
+	*//*
 	 * (non-Javadoc)
 	 * 
 	 * @see java.util.concurrent.ExecutorService#submit(java.util.concurrent.
 	 * Callable)
-	 */
+	 *//*
 	@Override
 	public <T> Future<T> submit(Callable<T> task) {
 		// TODO Auto-generated method stub
@@ -421,11 +422,11 @@ public class ThreadPoolExecutorFromJDK6 implements ExecutorService {
         return ftask;
 	}
 
-	/*
+	*//*
 	 * (non-Javadoc)
 	 * 
 	 * @see java.util.concurrent.ExecutorService#submit(java.lang.Runnable)
-	 */
+	 *//*
 	@Override
 	public Future<?> submit(Runnable task) {
 		// TODO Auto-generated method stub
@@ -434,7 +435,7 @@ public class ThreadPoolExecutorFromJDK6 implements ExecutorService {
         execute(ftask);
         return ftask;
 	}
-/*    protected <T> RunnableFuture<T> newTaskFor(Runnable runnable, T value) {
+*//*    protected <T> RunnableFuture<T> newTaskFor(Runnable runnable, T value) {
         return new FutureTask<T>(runnable, value);
         
 	/*
@@ -442,7 +443,7 @@ public class ThreadPoolExecutorFromJDK6 implements ExecutorService {
 	 * 
 	 * @see java.util.concurrent.ExecutorService#submit(java.lang.Runnable,
 	 * java.lang.Object)
-	 */
+	 *//*
 	@Override
 	public <T> Future<T> submit(Runnable task, T result) {
 		// TODO Auto-generated method stub
@@ -453,23 +454,23 @@ public class ThreadPoolExecutorFromJDK6 implements ExecutorService {
 	}
 
 
-	/*
+	*//*
 	 * (non-Javadoc)
 	 * 
 	 * @see java.util.concurrent.ExecutorService#invokeAll(java.util.Collection)
-	 */
+	 *//*
 	@Override
 	public <T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> tasks) throws InterruptedException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	/*
+	*//*
 	 * (non-Javadoc)
 	 * 
 	 * @see java.util.concurrent.ExecutorService#invokeAll(java.util.Collection,
 	 * long, java.util.concurrent.TimeUnit)
-	 */
+	 *//*
 	@Override
 	public <T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> tasks, long timeout, TimeUnit unit)
 			throws InterruptedException {
@@ -477,29 +478,29 @@ public class ThreadPoolExecutorFromJDK6 implements ExecutorService {
 		return null;
 	}
 
-	/*
+	*//*
 	 * (non-Javadoc)
 	 * 
 	 * @see java.util.concurrent.ExecutorService#invokeAny(java.util.Collection)
-	 */
+	 *//*
 	@Override
 	public <T> T invokeAny(Collection<? extends Callable<T>> tasks) throws InterruptedException, ExecutionException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	/*
+	*//*
 	 * (non-Javadoc)
 	 * 
 	 * @see java.util.concurrent.ExecutorService#invokeAny(java.util.Collection,
 	 * long, java.util.concurrent.TimeUnit)
-	 */
+	 *//*
 	@Override
 	public <T> T invokeAny(Collection<? extends Callable<T>> tasks, long timeout, TimeUnit unit)
 			throws InterruptedException, ExecutionException, TimeoutException {
 		// TODO Auto-generated method stub
 		return null;
-	}
+	}*/
 
 }
 

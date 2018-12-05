@@ -4,14 +4,14 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class TestCotroller {
-	public static void main(String[] args) {
+/*	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		// testOriginalThreadPool();
 		testMyFixedThreadPooFrom16();
 		// System.exit(0);
-	}
+	}*/
 
-	public static void testMyFixedThreadPooFrom16() {
+	/*public static void testMyFixedThreadPooFrom16() {
 		// ThreadPoolExecutorFromJDK6_backup_format_execute
 		// threadPoolExecutorFromJDK6=new
 		// ThreadPoolExecutorFromJDK6_backup_format_execute(3);
@@ -90,6 +90,6 @@ public class TestCotroller {
 
 		Thread.currentThread().getState();
 
-	}
+	}*/
 
 }
